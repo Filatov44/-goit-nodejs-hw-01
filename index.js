@@ -2,6 +2,8 @@ console.log("Server started...");
 
 const contactsOperations = require("./contacts");
 // const argv = require("yargs").argv;
+const yargs = require("yargs");
+const {hideBin} = require("yargs/helpers")
 
 
 async function invokeAction({ action, id, name, email, phone }) {
@@ -43,6 +45,11 @@ async function invokeAction({ action, id, name, email, phone }) {
       console.warn("\x1B[31m Unknown action type!");
   }
 }
+
+const arr = hideBin(process.argv);
+const { argv } = yargs(arr);
+
+invokeAction(argv);
 
 // invokeAction(argv);
 // invokeAction({ action: "list" });
