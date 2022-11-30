@@ -48,6 +48,7 @@ async function invokeAction({ action, id, name, email, phone }) {
 
 const arr = hideBin(process.argv);
 const { argv } = yargs(arr);
+// console.log(argv);
 
 invokeAction(argv);
 
@@ -63,3 +64,4 @@ invokeAction(argv);
 //   phone: "123456789",
 // });
 // invokeAction({action: "remove", id: "f6f9a43b-1eff-4ca8-8c2f-53175b8b5122"})
+//node index.js --action add --name "Mike Tyson" --email tyson_power@mail.com --phone 123456789

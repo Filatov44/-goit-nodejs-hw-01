@@ -38,12 +38,21 @@ async function removeContact(contactId) {
 }
 
 async function addContact(name, email, phone) {
+  if (!name) {
+    return "\x1B[31m name is required";
+  }
+  if (!email) {
+    return "\x1B[31m email is required";
+  }
+  if (!phone) {
+    return "\x1B[31m phone is required";
+  }
   const contacts = await listContacts();
   const newContact = {
     id: v4(),
     name,
     email,
-    phone,
+    phone: String(phone),
   };
 
   contacts.push(newContact);
@@ -59,8 +68,20 @@ async function updateById(id, data) {
   if (index === -1) {
     return null;
   }
+  // console.log(contacts[index]);
+  const existName = contacts[index].name;
+  const existEmail = contacts[index].email;
+  const existPhone = contacts[index].phone;
 
-  contacts[index] = { id, ...data };
+  // console.log(existName, existEmail, existPhone);
+
+  contacts[index] = {
+    id,
+    name: data.name ?? existName,
+    email: data.email ?? existEmail,
+    phone: data.phone ?? existPhone,
+    
+  };
   await updateContacts(contacts);
   return contacts[index];
 }
