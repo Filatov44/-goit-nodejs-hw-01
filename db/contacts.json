@@ -62,7 +62,19 @@
   {
     "id": "8c8a02c8-2ef7-4e8b-9088-f3c49f0dfc77",
     "name": "Mike Tyson",
-    "email": "tyson_power@mail.com",
+    "email": "tyson_powe@rmail.com",
     "phone": "123456789"
+  },
+  {
+    "id": "e3bb849f-547f-40ce-ba36-b97031246758",
+    "name": "Ronaldo",
+    "email": "cr7@mail.com",
+    "phone": "77777777777"
+  },
+  {
+    "id": "785a9150-bfa1-4800-a124-393b2d42f058",
+    "name": "Polly",
+    "email": "polly@mail.com",
+    "phone": "54554546"
   }
 ]

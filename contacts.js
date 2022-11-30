@@ -13,6 +13,9 @@ const updateContacts = async (contacts) =>
 //uuid для создания id
 const { v4 } = require("uuid");
 
+const validator = require('validator');
+// validator.isEmail('foo@bar.com');
+
 async function listContacts() {
   const data = await fs.readFile(contactsPath);
   return JSON.parse(data);
@@ -38,6 +41,7 @@ async function removeContact(contactId) {
 }
 
 async function addContact(name, email, phone) {
+
   if (!name) {
     return "\x1B[31m name is required";
   }
@@ -47,18 +51,30 @@ async function addContact(name, email, phone) {
   if (!phone) {
     return "\x1B[31m phone is required";
   }
-  const contacts = await listContacts();
-  const newContact = {
-    id: v4(),
-    name,
-    email,
-    phone: String(phone),
-  };
+  const isValidEmail = validator.isEmail(email);
+  if (!isValidEmail) {
+	return "\x1B[31m email entered incorrectly";
+}
+  
+//   const isValidName = validator.contains(name);
+  const isValidPhone = validator.isMobilePhone(String(phone));
 
-  contacts.push(newContact);
-  //JSON.stringify(contacts, null, 2)) null- перелік символів что надо замінити; 2- відступи
-  await updateContacts(contacts);
-  return newContact;
+  if (!isValidPhone) {
+	return "\x1B[31m phone number entered incorrectly";
+  }
+
+	const contacts = await listContacts();
+	const newContact = {
+	  id: v4(),
+	  name,
+	  email,
+	  phone: String(phone),
+	};
+ 
+	contacts.push(newContact);
+	//JSON.stringify(contacts, null, 2)) null- перелік символів что надо замінити; 2- відступи
+	await updateContacts(contacts);
+	return newContact;
 }
 
 async function updateById(id, data) {
@@ -73,15 +89,25 @@ async function updateById(id, data) {
   const existEmail = contacts[index].email;
   const existPhone = contacts[index].phone;
 
-  // console.log(existName, existEmail, existPhone);
-
   contacts[index] = {
     id,
     name: data.name ?? existName,
     email: data.email ?? existEmail,
-    phone: data.phone ?? existPhone,
+    phone: String( data.phone ?? existPhone ),
     
   };
+// console.log(contacts);
+  const isValidEmail = validator.isEmail(contacts[index].email);
+  if (!isValidEmail) {
+	return "\x1B[31m email entered incorrectly";
+	}
+  
+  const isValidPhone = validator.isMobilePhone(String(contacts[index].phone));
+  console.log(contacts[index].phone);
+  if (!isValidPhone) {
+	return "\x1B[31m phone number entered incorrectly";
+  }
+
   await updateContacts(contacts);
   return contacts[index];
 }

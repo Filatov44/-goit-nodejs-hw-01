@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "uuid": "^9.0.0",
+    "validator": "^13.7.0",
     "yargs": "^17.6.2"
   }
 }
